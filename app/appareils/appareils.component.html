@@ -1,0 +1,63 @@
+<!-- Exemple de formulaire amélioré -->
+<div class="p-4">
+  <form class="form" name="registerForm" (ngSubmit)="ngSubmit()">
+    <div class="mb-3">
+      <label for="labelle" class="form-label fs-5">Nom</label>
+      <input type="text" class="form-control" id="labelle" placeholder="Libellé" [(ngModel)]="appareils.labelle" name="labelle" required>
+    </div>
+    <!-- Ajoutez des classes Bootstrap pour le style -->
+    <div class="mb-3">
+      <label for="description" class="form-label fs-5">Description</label>
+      <input type="text" class="form-control" id="description" placeholder="Description" [(ngModel)]="appareils.description" name="description" required>
+    </div>
+    <div class="mb-3">
+      <label for="state" class="form-label fs-5">État</label>
+      <input type="number" min="0" max="1" class="form-control" id="state" placeholder="État" [(ngModel)]="appareils.state" name="state" required>
+    </div>
+    <div class="mb-3">
+      <label for="categories" class="form-label fs-5">Catégorie</label>
+      <select class="form-select" id="categories" [(ngModel)]="appareils.categories" name="categories" required>
+        <option value="" disabled selected>Sélectionnez une catégorie</option>
+        <option *ngFor="let category of categorie" [value]="category.id">{{ category.id }} - {{category.labelle}}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success">Ajouter</button>
+  </form>
+</div>
+
+
+<table class="table  mt-4">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Description</th>
+      <th scope="col">État</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let appareils of appareil">
+      <td>{{appareils.id}}</td>
+      <td>{{appareils.labelle}}</td>
+      <td>{{appareils.description}}</td>
+      <button *ngIf="appareils.state; else elseBlock"  (click)="switchState(appareils.id)">
+       On
+      </button>
+      <ng-template #elseBlock>
+        <button  (click)="switchState(appareils.id)">
+         Off
+        </button>
+      </ng-template>
+      
+      <td>
+        <button  (click)="deleteAppareil(appareils.id)">
+          <i class="bi bi-trash"></i> 
+        </button>
+        <button class="btn btn-secondary" (click)="updateAppareils(appareils.id)">
+          <i class="bi bi-pencil"></i> 
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
